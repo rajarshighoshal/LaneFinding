@@ -9,8 +9,8 @@ The goals / steps of this project are the following:
 * Make a pipeline that finds lane lines on the road
 * Reflect on your work in a written report
 
-[startingImage]: ./test_images/solidWhiteRight.jpg "Traget Image"
-[targetImage]: ./examples/laneLines_thirdPass.jpg "Traget Image"
+![startingImage]: ./test_images/solidWhiteRight.jpg "Traget Image"
+![targetImage]: ./examples/laneLines_thirdPass.jpg "Traget Image"
 
 ---
 
