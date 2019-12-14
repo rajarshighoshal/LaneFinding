@@ -59,5 +59,5 @@ After applying all thses operations final image looks something like this :-
 
 ### 3. Possible improvements 
 
-* One possibility is to converting the whole image into HSV space and then figuring out parameters.
+* One possibility is to converting the whole image into HSV space and then applying the algorithms and figuring out parameters.
 
