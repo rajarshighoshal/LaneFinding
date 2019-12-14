@@ -26,17 +26,19 @@ The main aim of the project is to detect road lane markings. I followed below se
 ### Noise removal
 To remove sharp noise in image, 3x3 Gaussian kernel smoothing was applied to image. I have experimented with 5x5 kernel but it deteriorated the performance of lane mask generation and edge detection steps.
 
-### Lane mask generation
-Based on given test images lanes are marked as yellow or white. To generate the road lane masks, I experimented with different pixel threshold values in grayscale, RGB, YCbCr and HSV colorspaces. Pixel thresholding in RGB, HSV colorspaces provided good binary mask results compared to other colorspaces.
 
 ### Edge detection
 I have used Canny edge detection algorithm with (20, 100) threshold values over lane binary mask. 
+I ended up using below parameters for edge detection.
+```python 
+    low_threshold = 30
+    high_threshold = 100
+```
 
 ### Hough line detection
 I have applied probabilistic hough transform algorithm on edge map to detect the line shapes. I have experimented with theta, minimum line size, rho and max line gap and threshold values. The hough vote count(threshold) and minimum line size values played key role in removing outliers. I ended up using below parameters for line detection.
 
 ```python 
-	# Hough line detection algorithm parameters
     rho = 1
     theta = np.pi/180
     threshold = 30
