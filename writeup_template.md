@@ -43,7 +43,7 @@ I needed to change the `draw_lines` function in the following ways to get persis
 
 After applying all thses operations final image looks something like this :-
 
-![alt text][image2]
+![alt text][image1]
 
 
 
