@@ -9,14 +9,14 @@ The goals / steps of this project are the following:
 * Make a pipeline that finds lane lines on the road
 * Reflect on your work in a written report
 
-![startingImage]: ./test_images/solidWhiteRight.jpg "Traget Image"
-![targetImage]: ./examples/laneLines_thirdPass.jpg "Traget Image"
+
+[image1]: ./examples/laneLines_thirdPass.jpg "Grayscale"
 
 ---
 
 ### Reflection
 
-### 1. Project Pipeline
+### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
 My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
 
