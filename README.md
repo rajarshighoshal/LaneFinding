@@ -41,9 +41,9 @@ I have applied probabilistic hough transform algorithm on edge map to detect the
 ```python 
     rho = 1
     theta = np.pi/180
-    threshold = 30
+    threshold = 60
     min_line_len = 30
-    max_line_gap = 20
+    max_line_gap = 150
 ```
 
 ## Extrapolate lane markings

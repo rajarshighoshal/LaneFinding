@@ -13250,7 +13250,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.image.AxesImage at 0x7fe83334b240&gt;</pre>
+<pre>&lt;matplotlib.image.AxesImage at 0x7f27c0e75160&gt;</pre>
 </div>
 
 </div>
@@ -13362,39 +13362,6 @@ div#notebook {
     <span class="n">masked_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">masked_image</span>
 
-
-<span class="k">def</span> <span class="nf">draw_lines</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    NOTE: this is the function you might want to use as a starting point once you want to </span>
-<span class="sd">    average/extrapolate the line segments you detect to map out the full</span>
-<span class="sd">    extent of the lane (going from the result shown in raw-lines-example.mp4</span>
-<span class="sd">    to that shown in P1_example.mp4).  </span>
-<span class="sd">    </span>
-<span class="sd">    Think about things like separating line segments by their </span>
-<span class="sd">    slope ((y2-y1)/(x2-x1)) to decide which segments are part of the left</span>
-<span class="sd">    line vs. the right line.  Then, you can average the position of each of </span>
-<span class="sd">    the lines and extrapolate to the top and bottom of the lane.</span>
-<span class="sd">    </span>
-<span class="sd">    This function draws `lines` with `color` and `thickness`.    </span>
-<span class="sd">    Lines are drawn on the image inplace (mutates the image).</span>
-<span class="sd">    If you want to make the lines semi-transparent, think about combining</span>
-<span class="sd">    this function with the weighted_img() function below</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">lane_pair</span> <span class="o">=</span> <span class="n">pick_lanes</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">a</span> <span class="ow">in</span> <span class="n">lane_pair</span><span class="p">:</span>
-        <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="n">color</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">hough_lines</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">min_line_len</span><span class="p">,</span> <span class="n">max_line_gap</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    `img` should be the output of a Canny transform.</span>
-<span class="sd">        </span>
-<span class="sd">    Returns an image with hough lines drawn.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">HoughLinesP</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">minLineLength</span><span class="o">=</span><span class="n">min_line_len</span><span class="p">,</span> <span class="n">maxLineGap</span><span class="o">=</span><span class="n">max_line_gap</span><span class="p">)</span>
-    <span class="n">line_img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="n">draw_lines</span><span class="p">(</span><span class="n">line_img</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">line_img</span>
-
 <span class="k">def</span> <span class="nf">pick_lanes</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to eliminate hough lines which are created because of scratech on the road surface</span>
@@ -13443,6 +13410,38 @@ div#notebook {
     
     <span class="k">return</span> <span class="n">lane_pair</span>
 
+<span class="k">def</span> <span class="nf">draw_lines</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NOTE: this is the function you might want to use as a starting point once you want to </span>
+<span class="sd">    average/extrapolate the line segments you detect to map out the full</span>
+<span class="sd">    extent of the lane (going from the result shown in raw-lines-example.mp4</span>
+<span class="sd">    to that shown in P1_example.mp4).  </span>
+<span class="sd">    </span>
+<span class="sd">    Think about things like separating line segments by their </span>
+<span class="sd">    slope ((y2-y1)/(x2-x1)) to decide which segments are part of the left</span>
+<span class="sd">    line vs. the right line.  Then, you can average the position of each of </span>
+<span class="sd">    the lines and extrapolate to the top and bottom of the lane.</span>
+<span class="sd">    </span>
+<span class="sd">    This function draws `lines` with `color` and `thickness`.    </span>
+<span class="sd">    Lines are drawn on the image inplace (mutates the image).</span>
+<span class="sd">    If you want to make the lines semi-transparent, think about combining</span>
+<span class="sd">    this function with the weighted_img() function below</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lane_pair</span> <span class="o">=</span> <span class="n">pick_lanes</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span><span class="p">,</span><span class="n">a</span> <span class="ow">in</span> <span class="n">lane_pair</span><span class="p">:</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="n">color</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">hough_lines</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">min_line_len</span><span class="p">,</span> <span class="n">max_line_gap</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `img` should be the output of a Canny transform.</span>
+<span class="sd">        </span>
+<span class="sd">    Returns an image with hough lines drawn.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">HoughLinesP</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">minLineLength</span><span class="o">=</span><span class="n">min_line_len</span><span class="p">,</span> <span class="n">maxLineGap</span><span class="o">=</span><span class="n">max_line_gap</span><span class="p">)</span>
+    <span class="n">line_img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">draw_lines</span><span class="p">(</span><span class="n">line_img</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">line_img</span>
 
 <span class="c1"># Python 3 has support for cool math symbols.</span>
 
@@ -13545,12 +13544,11 @@ div#notebook {
     <span class="n">img_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_img_dir</span><span class="p">,</span> <span class="n">img_name</span><span class="p">)</span>
     <span class="c1"># read the imge from path</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">img_path</span><span class="p">)</span>
+    <span class="c1"># conver to gray scale</span>
+    <span class="n">img_gray</span> <span class="o">=</span> <span class="n">grayscale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
     <span class="c1"># apply gaussian blur</span>
-    <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">blur_img</span> <span class="o">=</span> <span class="n">gaussian_blur</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">)</span>
-    <span class="c1"># Identify pixels below the threshold to create binary mask</span>
-    <span class="n">thresholds</span> <span class="o">=</span> <span class="p">(</span><span class="n">blur_img</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">blur_img</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">blur_img</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="n">blur_img</span><span class="p">[</span><span class="n">thresholds</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">blur_img</span> <span class="o">=</span> <span class="n">gaussian_blur</span><span class="p">(</span><span class="n">img_gray</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">)</span>
     <span class="c1"># apply canny transformation</span>
     <span class="n">low_threshold</span> <span class="o">=</span> <span class="mi">30</span>
     <span class="n">high_threshold</span> <span class="o">=</span> <span class="mi">100</span>
@@ -13558,39 +13556,21 @@ div#notebook {
     <span class="c1"># apply region of interest</span>
     <span class="n">ysize</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">xsize</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">region</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ysize</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">ysize</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="p">,</span><span class="n">ysize</span><span class="p">]</span> <span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ysize</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">ysize</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">40</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="p">,</span><span class="n">ysize</span><span class="p">]</span> <span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     <span class="n">roi_image</span> <span class="o">=</span> <span class="n">region_of_interest</span><span class="p">(</span><span class="n">masked_edges</span><span class="p">,</span> <span class="p">[</span><span class="n">region</span><span class="p">])</span>
     <span class="c1"># apply Hough transformation</span>
     <span class="n">rho</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
-    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">60</span>
     <span class="n">min_line_len</span> <span class="o">=</span> <span class="mi">30</span>
-    <span class="n">max_line_gap</span> <span class="o">=</span> <span class="mi">20</span>
-    <span class="n">hough_lines_img</span> <span class="o">=</span> <span class="n">hough_lines</span><span class="p">(</span><span class="n">masked_edges</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">min_line_len</span><span class="p">,</span> <span class="n">max_line_gap</span><span class="p">)</span>
+    <span class="n">max_line_gap</span> <span class="o">=</span> <span class="mi">150</span>
+    <span class="n">hough_lines_img</span> <span class="o">=</span> <span class="n">hough_lines</span><span class="p">(</span><span class="n">roi_image</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">min_line_len</span><span class="p">,</span> <span class="n">max_line_gap</span><span class="p">)</span>
     <span class="c1"># add the line to the original image and write the image to theoutput directory</span>
     <span class="n">output_img</span> <span class="o">=</span> <span class="n">weighted_img</span><span class="p">(</span><span class="n">hough_lines_img</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
     <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_img_output_dir</span><span class="p">,</span> <span class="n">img_name</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">output_img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2BGR</span><span class="p">))</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/opt/conda/lib/python3.6/site-packages/ipykernel_launcher.py:91: RuntimeWarning: divide by zero encountered in int_scalars
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13634,12 +13614,11 @@ imageio.plugins.ffmpeg.download()</code></pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">process_image</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="c1"># conver to gray scale</span>
+    <span class="n">img_gray</span> <span class="o">=</span> <span class="n">grayscale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
     <span class="c1"># apply gaussian blur</span>
-    <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">blur_img</span> <span class="o">=</span> <span class="n">gaussian_blur</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">)</span>
-    <span class="c1"># Identify pixels below the threshold to create binary mask</span>
-    <span class="n">thresholds</span> <span class="o">=</span> <span class="p">(</span><span class="n">blur_img</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">200</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">blur_img</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">blur_img</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span>
-    <span class="n">blur_img</span><span class="p">[</span><span class="n">thresholds</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">blur_img</span> <span class="o">=</span> <span class="n">gaussian_blur</span><span class="p">(</span><span class="n">img_gray</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">)</span>
     <span class="c1"># apply canny transformation</span>
     <span class="n">low_threshold</span> <span class="o">=</span> <span class="mi">30</span>
     <span class="n">high_threshold</span> <span class="o">=</span> <span class="mi">100</span>
@@ -13647,15 +13626,15 @@ imageio.plugins.ffmpeg.download()</code></pre>
     <span class="c1"># apply region of interest</span>
     <span class="n">ysize</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">xsize</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">region</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ysize</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">ysize</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="p">,</span><span class="n">ysize</span><span class="p">]</span> <span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">region</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">ysize</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">ysize</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">40</span><span class="p">],</span> <span class="p">[</span><span class="n">xsize</span><span class="p">,</span><span class="n">ysize</span><span class="p">]</span> <span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
     <span class="n">roi_image</span> <span class="o">=</span> <span class="n">region_of_interest</span><span class="p">(</span><span class="n">masked_edges</span><span class="p">,</span> <span class="p">[</span><span class="n">region</span><span class="p">])</span>
     <span class="c1"># apply Hough transformation</span>
     <span class="n">rho</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span>
-    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="mi">60</span>
     <span class="n">min_line_len</span> <span class="o">=</span> <span class="mi">30</span>
-    <span class="n">max_line_gap</span> <span class="o">=</span> <span class="mi">20</span>
-    <span class="n">hough_lines_img</span> <span class="o">=</span> <span class="n">hough_lines</span><span class="p">(</span><span class="n">masked_edges</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">min_line_len</span><span class="p">,</span> <span class="n">max_line_gap</span><span class="p">)</span>
+    <span class="n">max_line_gap</span> <span class="o">=</span> <span class="mi">150</span>
+    <span class="n">hough_lines_img</span> <span class="o">=</span> <span class="n">hough_lines</span><span class="p">(</span><span class="n">roi_image</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">min_line_len</span><span class="p">,</span> <span class="n">max_line_gap</span><span class="p">)</span>
     <span class="c1"># add the line to the original image and write the image to theoutput directory</span>
     <span class="n">output_img</span> <span class="o">=</span> <span class="n">weighted_img</span><span class="p">(</span><span class="n">hough_lines_img</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output_img</span>
@@ -13716,7 +13695,7 @@ imageio.plugins.ffmpeg.download()</code></pre>
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|█████████▉| 221/222 [00:19&lt;00:00, 11.63it/s]
+<pre>100%|█████████▉| 221/222 [00:14&lt;00:00, 14.99it/s]
 </pre>
 </div>
 </div>
@@ -13730,8 +13709,8 @@ imageio.plugins.ffmpeg.download()</code></pre>
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: test_videos_output/solidWhiteRight.mp4 
 
-CPU times: user 8.87 s, sys: 231 ms, total: 9.1 s
-Wall time: 20.7 s
+CPU times: user 3.02 s, sys: 235 ms, total: 3.25 s
+Wall time: 16.1 s
 </pre>
 </div>
 </div>
@@ -13847,7 +13826,7 @@ Wall time: 20.7 s
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|█████████▉| 681/682 [01:03&lt;00:00, 10.40it/s]
+<pre>100%|█████████▉| 681/682 [00:44&lt;00:00, 15.03it/s]
 </pre>
 </div>
 </div>
@@ -13861,8 +13840,8 @@ Wall time: 20.7 s
 <pre>[MoviePy] Done.
 [MoviePy] &gt;&gt;&gt;&gt; Video ready: test_videos_output/solidYellowLeft.mp4 
 
-CPU times: user 25.5 s, sys: 3.56 s, total: 29.1 s
-Wall time: 1min 5s
+CPU times: user 9.37 s, sys: 584 ms, total: 9.96 s
+Wall time: 46.6 s
 </pre>
 </div>
 </div>
@@ -13929,7 +13908,7 @@ Wall time: 1min 5s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">challenge_output</span> <span class="o">=</span> <span class="s1">&#39;test_videos_output/challenge.mp4&#39;</span>
@@ -13969,23 +13948,7 @@ Wall time: 1min 5s
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 251/251 [00:43&lt;00:00,  5.59it/s]
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[MoviePy] Done.
-[MoviePy] &gt;&gt;&gt;&gt; Video ready: test_videos_output/challenge.mp4 
-
-CPU times: user 16.6 s, sys: 1.98 s, total: 18.6 s
-Wall time: 47.3 s
-</pre>
+<pre> 47%|████▋     | 117/251 [00:13&lt;00:20,  6.64it/s]</pre>
 </div>
 </div>
 
@@ -13995,7 +13958,7 @@ Wall time: 47.3 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -14009,58 +13972,16 @@ Wall time: 47.3 s
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[13]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-
-<video width="960" height="540" controls>
-  <source src="test_videos_output/challenge.mp4">
-</video>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>jupyter nbconvert --to html LaneFinding.ipynb
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[NbConvertApp] Converting notebook LaneFinding.ipynb to html
-[NbConvertApp] Writing 454216 bytes to LaneFinding.html
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
